@@ -1,10 +1,22 @@
 from flask import Flask
-from flask.ext import restful
+from flask.ext.restful import Api, Resource
+from flask.ext.httpauth import HTTPBasicAuth
+
+from secret import USERNAME,PASSWORD
 
 app = Flask(__name__)
-api = restful.Api(app)
+api = Api(app)
 
-class HelloWorld(restful.Resource):
+auth = HTTPBasicAuth()
+
+@auth.get_password
+def getPassword(username):
+    if username == USERNAME:
+    	return PASSWORD
+    return None
+
+class HelloWorld(Resource):
+	decorators = [auth.login_required]
 	def get(self):
 		return {'hello': 'rest'}
 
