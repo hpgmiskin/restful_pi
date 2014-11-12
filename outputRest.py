@@ -1,28 +1,42 @@
 from flask import Flask
-from flask.ext import restful
+from flask.ext.restful import Api, Resource, reqparse
 from gpioOut import GPIOOut
 
 app = Flask(__name__)
-api = restful.Api(app)
+api = Api(app)
 
 #needs to be decoupled
 pins = [25,24,23,18]
 gpioOut = GPIOOut(pins)
 
-class Outputs(restful.Resource):
+#function for root
+@app.route('/')
+def hello():
+	return "ROOT"
+
+class Outputs(Resource):
+	def __init__(self):
+		self.reqparse = reqparse.RequestParser()
+
 	def get(self):
 		"List outputs"
 		
 		output = gpioOut.getOutputs()
 		return output
 
-	def put(self,putObject):
+	def put(self):
 		"Update outputs"
 
-		print putObject
+		arguments = self.reqparse.parse_args()
+
+		for key, value in arguments.iteritems():
+			print key,value
+
 		return True
 
-class Output(restful.Resource):
+class OutputID(Resource):
+	def __init__(self):
+		self.reqparse = reqparse.RequestParser()
 
 	def get(self,pin):
 		"Return state of given pin"
@@ -31,11 +45,16 @@ class Output(restful.Resource):
 
 	def put(self,putObject):
 		"Update given output"
-		print putObject
+
+		arguments = self.reqparse.parse_args()
+
+		for key, value in arguments.iteritems():
+			print key,value
+			
 		return True
 
 
 if __name__ == '__main__':
 	api.add_resource(Outputs, '/outputs')
-	api.add_resource(Output, '/outputs/<int:pin>')
+	api.add_resource(OutputID, '/outputs/<int:pin>')
 	app.run(host='0.0.0.0', port=80, debug=True)

@@ -15,19 +15,19 @@ class GPIOOut():
 		 	#GPIO.setup(pin,GPIO.OUT)
 		 	self.pinState[pin] = False
 
-	def switchPins(self,onOffList):
-		"Switch all pins based on list of bool onOff values"
+	def setStates(self,states):
+		"Switch all pins based on list of bool state values"
 
-		#make sure onOffList is same length as pins
-		assert(len(onOffList) == len(self.pins))
+		#make sure states is same length as pins
+		assert(len(states) == len(self.pins))
 
-		for i,onOff in enumerate(onOffList):
-			self.switchPin(self.pins[i],onOff)
+		for i,state in enumerate(states):
+			self.setState(self.pins[i],onOff)
 
-	def switchPin(self,pin,onOff):
-		"Switch the given pin on or off depending on bool onOff"
+	def setState(self,pin,state):
+		"Switch the given pin on or off depending on bool state"
 
-		if onOff:
+		if state:
 			self.turnOn(pin)
 		else:
 			self.turnOff(pin)
@@ -42,11 +42,15 @@ class GPIOOut():
 		#GPIO.output(pin,GPIO.LOW)
 		self.pinState[pin] = True
 
+	def getState(self,pin):
+		"returns the state of the given pin as bool"
+
+		return self.pinState[pin]
 
 	def getOutput(self,pin):
 		"Returns a bool of the pin state"
 
-		return {"pin":pin,"state":self.pinState[pin]}
+		return {"pin":pin,"state":self.getState(pin)}
 
 	def getOutputs(self):
 		"Returns an object with all the pin states"
@@ -54,9 +58,7 @@ class GPIOOut():
 		outputs = []
 
 		for pin in self.pins:
-			output = {}
-			output["pin"]=pin
-			output["state"]=self.getOutput(pin)
+			output = self.getOutput(pin)
 			outputs.append(output)
 
-		return output
+		return outputs
