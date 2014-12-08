@@ -1,10 +1,19 @@
+import os
 from flask import Flask, request
 from flask.ext.cors import CORS
 from flask.ext.restful import Api, Resource, reqparse
 
 from lights import Lights
 
-app = Flask(__name__, static_folder='/Users/miskinh/Code/angular_pi', static_url_path='')
+currentPath = os.getcwd()
+print currentPath
+basePath = os.path.split(currentPath)[0]
+print basePath
+staticPath = os.path.join(basePath,'angular_pi')
+print staticPath
+
+
+app = Flask(__name__, static_folder=staticPath, static_url_path='')
 api = Api(app)
 cors = CORS(app, headers='Content-Type')
 

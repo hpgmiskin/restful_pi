@@ -1,14 +1,14 @@
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import time
 
-#GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BCM)
 
 def switch(channel):
     
     print "SWITCHING " + str(channel)
-    #GPIO.setup(channel,GPIO.OUT)
+    GPIO.setup(channel,GPIO.OUT)
     time.sleep(0.5)
-    #GPIO.setup(channel,GPIO.IN)
+    GPIO.setup(channel,GPIO.IN)
 
 lights = { 
   1 : 
