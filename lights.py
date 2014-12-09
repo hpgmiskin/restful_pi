@@ -37,7 +37,7 @@ class Lights():
     self.lights = []
 
     for lightID,light in lights.items():
-      switch(light['offChannel'])
+      #switch(light['offChannel'])
 
       self.lights.append({
         'id' : lightID,
