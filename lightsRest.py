@@ -19,6 +19,11 @@ class LightID(Resource):
 	def __init__(self):
 		self.reqparse = reqparse.RequestParser()
 
+	def get(self,lightID):
+		"Return the given light"
+
+		return [for light in lightsGPIO.getLights() if light.id == lightID][0]
+
 	def put(self,lightID):
 		"Update given output"
 
