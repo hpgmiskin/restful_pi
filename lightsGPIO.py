@@ -5,7 +5,7 @@ GPIO.setmode(GPIO.BCM)
 
 def switch(channel):
     
-    print "SWITCHING " + str(channel)
+    #print "SWITCHING " + str(channel)
     GPIO.setup(channel,GPIO.OUT)
     time.sleep(0.5)
     GPIO.setup(channel,GPIO.IN)
@@ -31,7 +31,7 @@ lights = {
     }
 }
 
-class Lights():
+class LightsGPIO():
 
   def __init__(self):
     self.lights = []
@@ -47,7 +47,6 @@ class Lights():
 
   def getLights(self):
 
-    print "GET LIGHTS CALLED"
     return self.lights
 
   def setLight(self,light):

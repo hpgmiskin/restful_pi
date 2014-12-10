@@ -10,4 +10,6 @@ venv/
 
 #Private
 secret.py
-restServer.py
+
+#Examples
+examples/*

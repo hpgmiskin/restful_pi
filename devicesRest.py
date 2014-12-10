@@ -3,18 +3,18 @@ from flask import Flask, request
 from flask.ext.cors import CORS
 from flask.ext.restful import Api, Resource, reqparse
 
-from lightsGPIO import LightsGPIO
-lightsGPIO = LightsGPIO()
+from devicesAttached import getAttachedDevices
 
-class Lights(Resource):
+class Devices(Resource):
 	def __init__(self):
 		self.reqparse = reqparse.RequestParser()
 		
 	def get(self):
 		"List outputs"
 		
-		return lightsGPIO.getLights()
+		return getAttachedDevices()
 
+"""
 class LightID(Resource):
 	def __init__(self):
 		self.reqparse = reqparse.RequestParser()
@@ -27,3 +27,4 @@ class LightID(Resource):
 		success = lightsGPIO.setLight(light)
 			
 		return True
+"""
