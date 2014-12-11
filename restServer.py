@@ -6,6 +6,7 @@ from flask.ext.restful import Api, Resource, reqparse
 #Local Imports
 from lightsRest import *
 from devicesRest import *
+from goproRest import *
 
 currentPath = os.getcwd()
 basePath = os.path.split(currentPath)[0]
@@ -21,6 +22,8 @@ def index():
   return app.send_static_file('index.html')
 
 if __name__ == '__main__':
+
+  api.add_resource(GoPro, '/gopro')
 
   api.add_resource(Devices, '/devices')
 

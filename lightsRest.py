@@ -22,7 +22,7 @@ class LightID(Resource):
 	def get(self,lightID):
 		"Return the given light"
 
-		return [for light in lightsGPIO.getLights() if light.id == lightID][0]
+		return [light for light in lightsGPIO.getLights() if light.id == lightID][0]
 
 	def put(self,lightID):
 		"Update given output"

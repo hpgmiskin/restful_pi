@@ -11,5 +11,9 @@ venv/
 #Private
 secret.py
 
+#Photos
+*.jpg
+*.JPG
+
 #Examples
 examples/*
