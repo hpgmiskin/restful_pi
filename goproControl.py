@@ -76,10 +76,10 @@ class GoProControl(object):
       'Shutter' : ('bacpac','SH','01'),
       'Stop' : ('bacpac','SH','00'),
       #Mode
-      'TimelapseMode' : ('camera','CM','00'), 
-      'PhotoMode' : ('camera','CM','02'), 
-      'BurstMode' : ('camera','CM','01'), 
-      'VideoMode' : ('camera','CM','03')
+      'VideoMode' : ('camera','CM','00'),
+      'PhotoMode' : ('camera','CM','01'), 
+      'BurstMode' : ('camera','CM','02'), 
+      'TimelapseMode' : ('camera','CM','03') 
       }
 
     url = "http://10.5.5.9/{}/{}?t={}&p=%{}".format(
@@ -117,13 +117,13 @@ class GoProControl(object):
     self.log = ""
 
     self.runCommand('PowerOn')
-    time.sleep(1)
+    time.sleep(2)
     self.runCommand('PhotoMode')
-    time.sleep(1)
+    time.sleep(2)
     self.runCommand('Shutter')
-    time.sleep(1)
+    time.sleep(2)
     self.getFile("NewPhoto.JPG")
-    time.sleep(1)
+    time.sleep(2)
     self.runCommand('PowerOff')
 
     print self.log
@@ -133,3 +133,4 @@ class GoProControl(object):
 if __name__ == "__main__":
   control = GoProControl()
   control.downloadPhoto()
+
