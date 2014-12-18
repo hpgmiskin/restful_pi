@@ -3,7 +3,8 @@ from flask import Flask, request
 from flask.ext.cors import CORS
 from flask.ext.restful import Api, Resource, reqparse
 
-from devicesAttached import getAttachedDevices
+from devicesAttached import DevicesAttached
+devicesAttached = DevicesAttached("http://192.168.0.1/")
 
 class Devices(Resource):
 	def __init__(self):
@@ -12,19 +13,20 @@ class Devices(Resource):
 	def get(self):
 		"List outputs"
 		
-		return getAttachedDevices()
+		return devicesAttached.getAttachedDevices()
 
-"""
-class LightID(Resource):
+class DevicesMAC(Resource):
 	def __init__(self):
 		self.reqparse = reqparse.RequestParser()
-
-	def put(self,lightID):
+		
+	def put(self,deviceMAC):
 		"Update given output"
 
-		light = request.get_json()
-		print light
-		success = lightsGPIO.setLight(light)
+		device = request.get_json()
+
+		if (deviceMAC != device["mac"]):
+			return False
+
+		devicesAttached.setOwner(device["mac"],device["owner"])
 			
 		return True
-"""

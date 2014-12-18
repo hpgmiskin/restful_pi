@@ -1,3 +1,9 @@
+"""
+restServer.py - Henry Miskin
+
+"""
+
+#library imports
 import os
 from flask import Flask, request
 from flask.ext.cors import CORS
@@ -8,6 +14,7 @@ from lightsRest import *
 from devicesRest import *
 from goproRest import *
 
+#Find static path 
 currentPath = os.getcwd()
 basePath = os.path.split(currentPath)[0]
 staticPath = os.path.join(basePath,'angular_pi')
@@ -26,6 +33,7 @@ if __name__ == '__main__':
   api.add_resource(GoPro, '/gopro')
 
   api.add_resource(Devices, '/devices')
+  api.add_resource(DevicesMAC, '/devices/<string:deviceMAC>')
 
   api.add_resource(Lights, '/lights')
   api.add_resource(LightID, '/lights/<int:lightID>')

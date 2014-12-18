@@ -1,48 +1,85 @@
-import re,json,urllib2
+import re
 
-def getContentRouter():
+from shared import *
 
-  feed = urllib2.urlopen('http://192.168.0.1/')
-  return feed.read()
+DUMMY = True
 
-def findAttachedDevices(routerPage):
+DUMMY_DEVICES_LIST = [
+  ["HenryPhone","FF-FF-FF-FF-FF-FF-FA","wireless"],
+  ["IlanPhone","FF-FF-FF-FF-FF-FF-FB","wireless"],
+  ["StevePhone","FF-FF-FF-FF-FF-FF-FC","wireless"],
+  ["RaspberryPi","FF-FF-FF-FF-FF-FF-FD","wired"]
+]
 
-  pattern = re.compile(r"attach_dev = '(.*)';")
-  matches = re.search(pattern, routerPage, flags=0)
+class DevicesAttached():
 
-  return matches.group(1)
+  def __init__(self,routerURL):
+    self.routerURL = routerURL
 
-def splitDeviceString(string):
+  def splitDeviceString(self,devicesString):
+    "Splits the given deviceString and returns a list of device lists"
 
-  devices = []
-  deviceList = string.split('<lf>')
+    devices = []
+    deviceList = string.split('<lf>')
 
-  for deviceString in deviceList:
-    device = deviceString.split(',')
-    devices.append(device)
+    for deviceString in deviceList:
+      device = deviceString.split(',')
+      devices.append(device)
 
-  return devices
+    return devices
 
-def getDevicesObject(deviceList):
+  def getDevicesList(self):
+    "returns a list of devices attached to the router who URL constructed class"
 
-  devicesObject = []
+    routerContent = getURL(self.routerURL)
 
-  for device in deviceList:
-    devicesObject.append({
-      "name" : device[0],
-      "mac" : device[1],
-      "connection" : device[2]
-      })
+    pattern = re.compile(r"attach_dev = '(.*)';")
+    matches = re.search(pattern, self.routerContent, flags=0)
 
-  return devicesObject
+    return self.splitDeviceString(matches.group(1))
 
-def getAttachedDevices():
-  routerPage = getContentRouter()
-  attachedDevices = findAttachedDevices(routerPage)
-  deviceList = splitDeviceString(attachedDevices)
-  devicesObject = getDevicesObject(deviceList)
+  def setOwner(self,mac,owner):
+    "Sets the given mac address to the given owner"
 
-  return devicesObject
+    filename = "owners.json"
 
-if (__name__ == "__main__"):
-  print getAttachedDevices()
+    owners = loadJSON(filename)
+    owners[mac] = owner
+    saveJSON(filename,owners)
+
+  def getOwner(self,mac):
+    "looks up in the known mac address table to see if the owner is known"
+
+    owners = loadJSON("owners.json")
+
+    try:
+      owner = owners[mac]
+    except KeyError:
+      owner = "unknown"
+
+    return owner
+
+  def setAttachedDevices(self):
+
+    self.devices = []
+
+    if DUMMY:
+      devicesList = DUMMY_DEVICES_LIST
+    else:
+      devicesList = self.getDevicesList()
+
+    for device in devicesList:
+      [name,mac,connection] = device
+      owner = self.getOwner(mac)
+
+      self.devices.append({
+        "name" : name,
+        "owner" : owner,
+        "mac" : mac,
+        "connection" : connection
+        })
+
+  def getAttachedDevices(self):
+
+    self.setAttachedDevices()
+    return self.devices
