@@ -5,12 +5,16 @@ from shared import *
 class GoProControl(object):
   """docstring for GoProControl"""
 
+  def __init__(self):
+    self.log = ""
+
   def getURL(self,url):
 
+    print url
     self.log += "URL: {}\n".format(url)
 
     try:
-      feed = urllib2.urlopen(url)
+      feed = urllib2.urlopen(url, timeout=1)
       return feed.read()
     except urllib2.HTTPError, e:
       self.log += 'HTTPError = ' + str(e.code) + '\n'
@@ -37,8 +41,14 @@ class GoProControl(object):
     matches = re.search(pattern, indexContent, flags=0)
     #find all to get all photos
 
-    fileName = matches.group(1)
+    try:
+      fileName = matches.group(1)
+    except:
+      self.log += "Cant find file of type {}".format(fileType)
+      return
+
     print fileName
+
     fileURL = "http://10.5.5.9:8080/videos/DCIM/100GOPRO/{}".format(fileName)
     fileContent = self.getURL(fileURL)
 
@@ -67,8 +77,8 @@ class GoProControl(object):
       'Stop' : ('bacpac','SH','00'),
       #Mode
       'TimelapseMode' : ('camera','CM','00'), 
-      'BurstMode' : ('camera','CM','01'), 
       'PhotoMode' : ('camera','CM','02'), 
+      'BurstMode' : ('camera','CM','01'), 
       'VideoMode' : ('camera','CM','03')
       }
 
@@ -84,22 +94,22 @@ class GoProControl(object):
 
   def takePhoto(self):
 
-    runCommand('PowerOn')
+    self.runCommand('PowerOn')
     time.sleep(1)
-    runCommand('PhotoMode')
+    self.runCommand('PhotoMode')
     time.sleep(1)
-    runCommand('Shutter')
+    self.runCommand('Shutter')
     time.sleep(1)
-    runCommand('PowerOff')
+    self.runCommand('PowerOff')
 
 
   def downloadPhoto(self):
 
-    runCommand('PowerOn')
+    self.runCommand('PowerOn')
     time.sleep(1)
-    getFile("NewPhoto.JPG")
+    self.getFile("NewPhoto.JPG")
     time.sleep(1)
-    runCommand('PowerOff')
+    self.runCommand('PowerOff')
 
 
   def updatePhoto(self):
@@ -119,3 +129,7 @@ class GoProControl(object):
     print self.log
 
     return self.log
+
+if __name__ == "__main__":
+  control = GoProControl()
+  control.downloadPhoto()
