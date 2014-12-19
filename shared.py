@@ -7,23 +7,30 @@ functions and objects in restful_pi
 import urllib2,json
 
 def loadJSON(filename):
-  "saves the data object as a JSON string"
+  "loads the file which contains a JSON string as an object"
 
-  with open(filename,"r") as openFile:
-      data = json.loads(openFile.read())
+  content = loadFile(filename)
+
+  if (content != ""):
+    data = json.loads(content)
+  else:
+    data = {}
+
   return data
 
 def saveJSON(filename,data):
-  "saves the data object as a JSON string"
-  
-  with open(filename,"w") as openFile:
-      openFile.write(json.dumps(data))
+  "saves the data object to the given file name as a JSON string"
+
+  saveFile(filename,json.dumps(data))
 
 def loadFile(filename):
   "Load a file with the given filename and return the content of the file"
 
-  with open(filename,"r") as openFile:
-    content = openFile.read()
+  try:
+    with open(filename,"r") as openFile:
+      content = openFile.read()
+  except:
+    content = ""
 
   return content
 

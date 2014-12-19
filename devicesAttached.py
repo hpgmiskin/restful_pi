@@ -1,15 +1,9 @@
 import re
 
 from shared import *
+from secret import DUMMY_DEVICES_LIST
 
 DUMMY = True
-
-DUMMY_DEVICES_LIST = [
-  ["HenryPhone","FF-FF-FF-FF-FF-FF-FA","wireless"],
-  ["IlanPhone","FF-FF-FF-FF-FF-FF-FB","wireless"],
-  ["StevePhone","FF-FF-FF-FF-FF-FF-FC","wireless"],
-  ["RaspberryPi","FF-FF-FF-FF-FF-FF-FD","wired"]
-]
 
 class DevicesAttached():
 
@@ -55,7 +49,7 @@ class DevicesAttached():
     try:
       owner = owners[mac]
     except KeyError:
-      owner = "unknown"
+      owner = "other"
 
     return owner
 
