@@ -10,7 +10,7 @@ venv/
 
 #Private
 secret.py
-owners.json
+*.json
 
 #Photos
 *.jpg

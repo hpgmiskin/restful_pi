@@ -37,14 +37,21 @@ class DevicesAttached():
 
     filename = "owners.json"
 
-    owners = loadJSON(filename)
+    try:
+      owners = loadJSON(filename)
+    except IOError:
+      owners = {}
+      
     owners[mac] = owner
     saveJSON(filename,owners)
 
   def getOwner(self,mac):
     "looks up in the known mac address table to see if the owner is known"
 
-    owners = loadJSON("owners.json")
+    try:
+      owners = loadJSON("owners.json")
+    except IOError:
+      owners = {}
 
     try:
       owner = owners[mac]

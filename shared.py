@@ -10,11 +10,7 @@ def loadJSON(filename):
   "loads the file which contains a JSON string as an object"
 
   content = loadFile(filename)
-
-  if (content != ""):
-    data = json.loads(content)
-  else:
-    data = {}
+  data = json.loads(content)
 
   return data
 
@@ -26,11 +22,8 @@ def saveJSON(filename,data):
 def loadFile(filename):
   "Load a file with the given filename and return the content of the file"
 
-  try:
-    with open(filename,"r") as openFile:
-      content = openFile.read()
-  except:
-    content = ""
+  with open(filename,"r") as openFile:
+    content = openFile.read()
 
   return content
 
