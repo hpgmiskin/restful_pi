@@ -84,7 +84,7 @@ class LightsGPIO():
   def getLight(self,lightID):
     "Returns a single light object"
 
-    return self.lights[lightID]
+    return self.lights[str(lightID)]
 
   def setLight(self,light):
     "Sets the given light variables"

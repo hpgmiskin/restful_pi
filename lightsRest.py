@@ -7,13 +7,15 @@ from lightsGPIO import LightsGPIO
 lightsGPIO = LightsGPIO()
 
 class Lights(Resource):
+	"Lights provides the interface to interact with all lights"
 
 	def get(self):
-		"List outputs"
+		"Returns a list of all lights in there current state"
 		
 		return lightsGPIO.getLights()
 
 class LightID(Resource):
+	"LightID provides the interface to interact with a single light"
 
 	def get(self,lightID):
 		"Return the given light"
@@ -21,9 +23,9 @@ class LightID(Resource):
 		return lightsGPIO.getLight(lightID)
 
 	def put(self,lightID):
-		"Update given output"
+		"Update the given light state"
 
 		light = request.get_json()
 		success = lightsGPIO.setLight(light)
 			
-		return True
+		return success

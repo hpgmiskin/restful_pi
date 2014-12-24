@@ -7,20 +7,18 @@ from devicesAttached import DevicesAttached
 devicesAttached = DevicesAttached("http://192.168.0.1/")
 
 class Devices(Resource):
-	def __init__(self):
-		self.reqparse = reqparse.RequestParser()
+	"Devices provides the interface to interact with all network devices"
 		
 	def get(self):
-		"List outputs"
+		"Return a list of all attached devices on the network"
 		
 		return devicesAttached.getAttachedDevices()
 
 class DevicesMAC(Resource):
-	def __init__(self):
-		self.reqparse = reqparse.RequestParser()
+	"DevicesMAC provides an interface to interact with a device with a given MAC address"
 		
 	def put(self,deviceMAC):
-		"Update given output"
+		"Set the owner of the device with given MAC address as per the device object"
 
 		device = request.get_json()
 
