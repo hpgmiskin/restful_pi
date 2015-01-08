@@ -3,7 +3,7 @@ import re
 from shared import *
 from secret import DUMMY_DEVICES_LIST
 
-DUMMY = True
+DUMMY = False
 
 class DevicesAttached():
 
@@ -14,7 +14,7 @@ class DevicesAttached():
     "Splits the given deviceString and returns a list of device lists"
 
     devices = []
-    deviceList = string.split('<lf>')
+    deviceList = devicesString.split('<lf>')
 
     for deviceString in deviceList:
       device = deviceString.split(',')
@@ -28,7 +28,7 @@ class DevicesAttached():
     routerContent = getURL(self.routerURL)
 
     pattern = re.compile(r"attach_dev = '(.*)';")
-    matches = re.search(pattern, self.routerContent, flags=0)
+    matches = re.search(pattern, routerContent, flags=0)
 
     return self.splitDeviceString(matches.group(1))
 
