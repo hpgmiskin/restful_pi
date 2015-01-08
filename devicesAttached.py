@@ -1,7 +1,6 @@
 import re
 
 from shared import *
-from secret import DUMMY_DEVICES_LIST
 
 DUMMY = False
 
