@@ -7,7 +7,7 @@ DUMMY = False
 
 class DevicesAttached():
 
-  def __init__(self,routerURL):
+  def __init__(self,routerURL="http://192.168.0.1/"):
     self.routerURL = routerURL
 
   def splitDeviceString(self,devicesString):
@@ -26,6 +26,8 @@ class DevicesAttached():
     "returns a list of devices attached to the router who URL constructed class"
 
     routerContent = getURL(self.routerURL)
+
+    if not routerContent: return []
 
     pattern = re.compile(r"attach_dev = '(.*)';")
     matches = re.search(pattern, routerContent, flags=0)
@@ -84,3 +86,15 @@ class DevicesAttached():
 
     self.setAttachedDevices()
     return self.devices
+
+  def getActiveOwners(self):
+
+    self.setAttachedDevices()
+
+    owners = {"henry":0,"ilan":0,"steve":0}
+
+    for device in self.devices:
+      if device["owner"] in owners.keys():
+        owners[device["owner"]] += 1
+
+    return owners

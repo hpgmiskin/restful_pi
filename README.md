@@ -19,33 +19,33 @@ To run this application its best to use a virtual environment. The requirements 
 ######Install Python 2.7 and Pip
 
 ######Install virtualenv by typing the following into the terminal
-
+```
     $ pip install vitualenv
-
+```
 ######Navigate to the local directory containing this repository in terminal
-
+```
     $ cd FOLDER_PATH
-
+```
 ######Create a new virtual environment in this directory
-
+```
     $ virtualenv venv
-
+```
 ######Activate the virtual environment
-
+```
     $ source venv/bin/activate
-
+```
 ######Install requirements using pip
-
+```
     $ pip install -r requirements.txt --allow-all-external
-
+```
 ######Run the server
-
+```
     $ sudo python restServer.py&
-
+```
 ######Open you internet browser and navigate to
-
-    0.0.0.0
-
+```
+    http://0.0.0.0/
+```
 ##Licence
 
 Please feel free to use any code contained within the repository for non commercial purposes however I request that credit is given to myself for any direct copying.

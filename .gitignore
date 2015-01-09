@@ -12,6 +12,7 @@ venv/
 #Private
 secret.py
 *.json
+*.csv
 
 #Photos
 *.jpg

@@ -6,14 +6,23 @@ rest interface where the url endpoints are connected to imported Classes
 
 #library imports
 import os
+
+#Flask imports
 from flask import Flask, request
 from flask.ext.cors import CORS
 from flask.ext.restful import Api, Resource, reqparse
 
-#Local Imports
+#Local Rest Server Imports
 from lightsRest import *
 from devicesRest import *
 from goproRest import *
+
+#Local Utility Imports
+from taskScheduler import getScheduler
+from shared import saveErrorLog
+
+#Return Scheduler
+scheduler = getScheduler()
 
 #Find static path from relative path
 currentPath = os.getcwd()
@@ -43,5 +52,12 @@ if __name__ == '__main__':
   api.add_resource(Lights, '/lights')
   api.add_resource(LightID, '/lights/<int:lightID>')
 
+  #Start Scheduler 
+  scheduler.start()
+
   #Run Server on port 0.0.0.0
-  app.run(host='0.0.0.0', port=80, debug=True)
+  try:
+    app.run(host='0.0.0.0', port=80, debug=False)
+  except Exception as exception:
+    saveErrorLog(exception)
+    scheduler.shutdown()
