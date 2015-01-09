@@ -1,9 +1,6 @@
 import re
 
 from shared import *
-from secret import DUMMY_DEVICES_LIST
-
-DUMMY = False
 
 class DevicesAttached():
 
@@ -66,10 +63,7 @@ class DevicesAttached():
 
     self.devices = []
 
-    if DUMMY:
-      devicesList = DUMMY_DEVICES_LIST
-    else:
-      devicesList = self.getDevicesList()
+    devicesList = self.getDevicesList()
 
     for device in devicesList:
       [name,mac,connection] = device
